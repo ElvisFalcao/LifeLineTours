@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
     "dev": "node --watch --disable-warning=ExperimentalWarning src/server.js",
-    "reset-db": "node --disable-warning=ExperimentalWarning src/reset.js"
+    "reset-db": "node --disable-warning=ExperimentalWarning src/reset.js",
+    "demo": "node scripts/serve-static.js"
   },
   "engines": {
     "node": ">=22"

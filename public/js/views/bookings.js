@@ -1,4 +1,4 @@
-import { api, session } from '../api.js';
+import { api, session, IS_DEMO } from '../api.js';
 import { store, navigate, can } from '../store.js';
 import {
   h, clear, icon, money, money2, fmtDate, fmtTime, fmtLongDate,
@@ -534,6 +534,16 @@ async function sendWhatsapp(id, template) {
 }
 
 async function openInvoice(id) {
+  if (IS_DEMO) {
+    try {
+      const b = await api.get(`/bookings/${id}`);
+      const { openDemoInvoice } = await import('../demo/invoice.js');
+      openDemoInvoice(b);
+    } catch (e) {
+      toast(e.message, 'error');
+    }
+    return;
+  }
   try {
     const res = await fetch(`/api/invoices/${id}`, { headers: { Authorization: `Bearer ${session.token}` } });
     if (!res.ok) throw new Error('Could not generate invoice');

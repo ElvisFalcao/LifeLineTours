@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
       "port": 4000
+    },
+    {
+      "name": "demo",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "demo"],
+      "port": 4100
     }
   ]
 }

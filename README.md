@@ -9,6 +9,26 @@ accounts. The database is an embedded SQLite file using Node's built-in `node:sq
 
 ---
 
+## Live demo (GitHub Pages)
+
+**https://elvisfalcao.github.io/LifeLineTours/**
+
+GitHub Pages only serves static files, so the live link runs a **browser-only build**:
+the same UI backed by an in-browser mock of the API. Data is seeded and saved in your
+browser's `localStorage` (per browser, just for you) — it's a clickable demo, not a
+shared multi-user system. Sign in with any demo login below; "Reset demo data" on the
+sign-in screen restores the original seed.
+
+The real, full-stack app (shared database, server-side PDF invoices) is the `npm start`
+version below. You can preview the exact Pages build locally with `npm run demo`
+(http://localhost:4100).
+
+> How it works: the root `index.html` sets `window.__LLT_DEMO__ = true` and reuses the
+> frontend in `public/`. In demo mode, `public/js/api.js` routes calls to the in-browser
+> backend in `public/js/demo/` instead of the network. The real app is untouched.
+
+---
+
 ## Quick start
 
 ```bash

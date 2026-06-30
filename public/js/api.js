@@ -31,7 +31,33 @@ class ApiError extends Error {
   }
 }
 
+// Demo mode (GitHub Pages): no backend — route calls to an in-browser mock.
+const DEMO = typeof window !== 'undefined' && window.__LLT_DEMO__ === true;
+export const IS_DEMO = DEMO;
+
+let mockPromise = null;
+function loadMock() {
+  if (!mockPromise) mockPromise = import('./demo/backend.js').then((m) => { m.init(); return m; });
+  return mockPromise;
+}
+
 async function request(method, path, body) {
+  if (DEMO) {
+    const mock = await loadMock();
+    const [p, qs] = path.split('?');
+    const query = Object.fromEntries(new URLSearchParams(qs || ''));
+    try {
+      const result = mock.handle(method, p, query, body, session.user);
+      return result == null ? result : JSON.parse(JSON.stringify(result));
+    } catch (e) {
+      if (e && e.status === 401 && session.token) {
+        session.clear();
+        window.dispatchEvent(new CustomEvent('auth:expired'));
+      }
+      throw new ApiError(e.message || 'Request failed', e.status || 400, e.code);
+    }
+  }
+
   const headers = { 'Content-Type': 'application/json' };
   if (session.token) headers.Authorization = `Bearer ${session.token}`;
   const res = await fetch(`/api${path}`, {

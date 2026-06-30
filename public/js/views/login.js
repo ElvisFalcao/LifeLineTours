@@ -1,4 +1,4 @@
-import { api, session } from '../api.js';
+import { api, session, IS_DEMO } from '../api.js';
 import { store } from '../store.js';
 import { h, clear, toast } from '../ui.js';
 
@@ -80,11 +80,20 @@ export function renderLogin(root, onSuccess) {
       'form',
       { class: 'login-card', onSubmit: submit },
       h('h2', {}, 'Sign in'),
-      h('p', { class: 'lead' }, 'Welcome back. Please enter your details.'),
+      h('p', { class: 'lead' }, IS_DEMO ? 'Live browser demo — data is saved locally in your browser, just for you. Use any login below.' : 'Welcome back. Please enter your details.'),
       h('div', { class: 'field' }, h('label', {}, 'Email address'), emailInput),
       h('div', { class: 'field' }, h('label', {}, 'Password'), passInput),
       btn,
-      h('div', { class: 'demo-creds' }, h('b', {}, 'Demo logins '), '(click to fill)', ...demoRows)
+      h(
+        'div',
+        { class: 'demo-creds' },
+        h('b', {}, 'Demo logins '),
+        '(click to fill)',
+        ...demoRows,
+        IS_DEMO
+          ? h('div', { class: 'row', style: { marginTop: '8px', color: '#b53434' }, title: 'Clear demo data and reload', onClick: () => window.__LLT_RESET__ && window.__LLT_RESET__() }, h('span', {}, '↺ Reset demo data'))
+          : null
+      )
     )
   );
 
