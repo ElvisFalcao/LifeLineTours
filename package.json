@@ -1,0 +1,21 @@
+{
+  "name": "lifeline-tours",
+  "version": "1.0.0",
+  "description": "LifeLine Tours Cape Town — Booking & Fleet Management System (operated under Lyfe Computer Technologies)",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --watch --disable-warning=ExperimentalWarning src/server.js",
+    "reset-db": "node --disable-warning=ExperimentalWarning src/reset.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pdfkit": "^0.15.1"
+  }
+}
